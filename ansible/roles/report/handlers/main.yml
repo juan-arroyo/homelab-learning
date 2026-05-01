@@ -1,0 +1,5 @@
+# Handlers for the report role
+
+- name: Report file created
+  ansible.builtin.debug:
+    msg: "Report file was created successfully"

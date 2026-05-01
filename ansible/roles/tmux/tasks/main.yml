@@ -1,0 +1,26 @@
+# Role: tmux
+# Installs tmux and deploys a custom configuration file
+
+# Task 1 — install tmux
+- name: Install tmux
+  # apt module to install packages on Debian/Raspberry Pi OS
+  ansible.builtin.apt:
+    name: tmux
+    # present — make sure it is installed
+    state: present
+
+# Task 2 — deploy tmux configuration file
+- name: Deploy tmux configuration
+  # "copy" with "src" copies a file from roles/tmux/files/ to the Pi
+  # Ansible automatically looks in the files/ folder of the role
+  ansible.builtin.copy:
+    # source file — Ansible looks for it in roles/tmux/files/
+    src: .tmux.conf
+    # destination on the Pi
+    dest: "/home/{{ username }}/.tmux.conf"
+    # file owner on the Pi
+    owner: "{{ username }}"
+    # file permissions — 0644 means read/write for owner, read for others
+    mode: "0644"
+  # if the file changes, notify the handler
+  notify: Tmux config changed

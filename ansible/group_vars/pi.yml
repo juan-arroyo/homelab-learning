@@ -1,0 +1,17 @@
+# Variables that apply to all machines in the "pi" group
+
+# Main server name
+server_name: your_server_name
+# Main user on the Pi
+username: your_pi_username
+
+# Base folder for Ansible practice files
+test_folder: /home/your_pi_username/ansible-test
+
+# Folder for reports
+reports_folder: /home/your_pi_username/reports
+
+# Example encrypted variable — encrypt yours with: ansible-vault encrypt_string 'your_password'
+db_password: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          YOUR_VAULT_ENCRYPTED_STRING_HERE

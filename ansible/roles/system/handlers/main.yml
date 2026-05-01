@@ -1,0 +1,5 @@
+# Handlers for the system role
+
+- name: System file deployed
+  ansible.builtin.debug:
+    msg: "System info file with variables was created successfully on the Pi"

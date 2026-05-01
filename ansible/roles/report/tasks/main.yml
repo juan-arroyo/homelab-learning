@@ -1,0 +1,31 @@
+# Role: report
+# Generates a report file on the Pi using a Jinja2 template
+
+# Task 1 — create reports folder
+- name: Create reports folder
+  ansible.builtin.file:
+    # destination folder on the Pi
+    path: "{{ reports_folder }}"
+    # state: directory means "make sure this folder exists"
+    state: directory
+  tags: setup
+
+# Task 2 — deploy report template
+- name: Deploy report template
+  ansible.builtin.template:
+    # template source — Ansible looks for it in roles/report/templates/
+    src: report.txt.j2
+    # destination on the Pi
+    dest: "{{ reports_folder }}/report.txt"
+    # file owner on the Pi
+    owner: "{{ username }}"
+  # if the file changes, notify the handler
+  notify: Report file created
+  tags: report
+
+# Task 3 — check OS compatibility
+- name: Check OS compatibility
+  ansible.builtin.debug:
+    msg: "Compatible system — Debian detected"
+  when: ansible_os_family == "Debian"
+  tags: os

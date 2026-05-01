@@ -1,0 +1,16 @@
+# Role: info
+# Creates a file with server information on the Pi
+
+# Task 1 — create test folder
+- name: Create test folder
+  ansible.builtin.file:
+    path: "{{ test_folder }}"
+    state: directory
+
+# Task 2 — create info file with variables
+- name: Create Pi info file
+  ansible.builtin.copy:
+    # uses variables to build the file content dynamically
+    content: "Server: {{ server_name }}, User: {{ username }} - Managed by Ansible"
+    dest: "{{ test_folder }}/info.txt"
+  notify: Info file created

@@ -1,0 +1,5 @@
+# Handlers for the info role
+
+- name: Info file created
+  ansible.builtin.debug:
+    msg: "Pi info file was created successfully"

@@ -1,0 +1,6 @@
+# Handlers for the tmux role
+
+- name: Tmux config changed
+  # debug prints a message to the screen
+  ansible.builtin.debug:
+    msg: "Tmux configuration changed — reload tmux if you have an active session"

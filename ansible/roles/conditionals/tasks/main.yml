@@ -1,0 +1,16 @@
+# Role: conditionals
+# Demonstrates conditionals and Ansible Vault usage
+
+# Task 1 — check if the OS is Debian-based
+- name: Check OS compatibility
+  ansible.builtin.debug:
+    msg: "Compatible system — Debian detected"
+  # "when" is a conditional — this task only runs if the condition is true
+  # ansible_os_family is a fact automatically gathered by Ansible
+  when: ansible_os_family == "Debian"
+
+# Task 2 — print encrypted variable (stored with Ansible Vault)
+- name: Show encrypted variable
+  ansible.builtin.debug:
+    # db_password is encrypted in group_vars/pi.yml using ansible-vault
+    msg: "Encrypted variable value: {{ db_password }}"

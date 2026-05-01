@@ -1,0 +1,24 @@
+# Main playbook — defines which roles to run on which machines
+# The actual tasks live inside each role
+
+- name: Homelab learning playbook
+  # which group of machines from the inventory to target
+  hosts: pi
+  # become: true tells Ansible to use sudo when admin permissions are needed
+  become: true
+  # roles are executed in order
+  roles:
+    # installs base files and folders — roles/base/tasks/main.yml
+    - base
+    # installs common tools (htop, curl, git) — roles/tools/tasks/main.yml
+    - tools
+    # installs and configures tmux — roles/tmux/tasks/main.yml
+    - tmux
+    # creates a Pi info file — roles/info/tasks/main.yml
+    - info
+    # deploys a Jinja2 template with system info — roles/system/tasks/main.yml
+    - system
+    # demonstrates conditionals and Vault — roles/conditionals/tasks/main.yml
+    - conditionals
+    # generates a report file — roles/report/tasks/main.yml
+    - report

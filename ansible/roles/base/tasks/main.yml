@@ -1,0 +1,26 @@
+# Role: base
+# Creates a test folder and sample files on the Pi
+
+# Task 1 — create test folder
+- name: Create test folder
+  ansible.builtin.file:
+    # uses a variable instead of a hardcoded path
+    # variables in Ansible use double curly braces {{ }}
+    path: "{{ test_folder }}"
+    state: directory
+
+# Task 2 — create a file with content
+- name: Create test file with content
+  ansible.builtin.copy:
+    content: "Hello from Ansible — this file was created by your playbook"
+    dest: "{{ test_folder }}/hello.txt"
+
+# Task 3 — create a sample config file
+- name: Create config file
+  ansible.builtin.copy:
+    # simulating a real config file
+    content: "config_version: 2"
+    dest: "{{ test_folder }}/config.txt"
+  # notify tells Ansible which handler to trigger if this task makes a change
+  # the name must match exactly with the handler name
+  notify: Config file changed

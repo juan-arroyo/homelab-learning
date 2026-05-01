@@ -1,0 +1,16 @@
+# Role: system
+# Deploys a file using a Jinja2 template with dynamic variables
+
+# Task 1 — deploy template file with variables
+- name: Deploy system info template
+  ansible.builtin.template:
+    # template source — Ansible looks for it in roles/system/templates/
+    src: system_info.txt.j2
+    # destination on the Pi
+    dest: "{{ test_folder }}/system_info.txt"
+    # file owner on the Pi
+    owner: "{{ username }}"
+    # file permissions
+    mode: '0644'
+  # if the file changes, notify the handler
+  notify: System file deployed

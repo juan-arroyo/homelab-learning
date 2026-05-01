@@ -1,0 +1,8 @@
+# Handlers are special tasks that only run
+# when notified by another task that made a change
+
+- name: Config file changed
+  # "debug" is an Ansible module for printing messages to the screen
+  ansible.builtin.debug:
+    # in a real scenario this would restart a service
+    msg: "Config file changed — in production this would trigger a service restart"

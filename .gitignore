@@ -1,0 +1,18 @@
+# Ansible vault password file — never commit this
+.vault_pass
+.vault_pass.txt
+
+# Ansible retry files — generated automatically on failed runs
+*.retry
+
+# Python cache
+__pycache__/
+*.pyc
+
+# SSH keys — just in case
+*.pem
+*.key
+
+# OS files
+.DS_Store
+Thumbs.db

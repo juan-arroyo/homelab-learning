@@ -1,0 +1,6 @@
+Server:           {{ ansible_hostname }}
+User:             {{ username }}
+RAM:              {{ ansible_memtotal_mb }} MB
+Operating system: {{ ansible_os_family }}
+Disk space:       {{ (ansible_mounts[0].size_total / 1073741824) | round(1) }} GB
+Encrypted var:    {{ db_password }}

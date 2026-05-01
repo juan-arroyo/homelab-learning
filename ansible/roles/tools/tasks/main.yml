@@ -1,0 +1,17 @@
+# Role: tools
+# Installs useful tools on the Pi
+
+- name: Install common tools
+  # "apt" is Ansible's module for managing packages on Debian/Ubuntu systems
+  # equivalent to running "sudo apt install <package>" manually
+  ansible.builtin.apt:
+    # installs each item in the loop
+    name: "{{ item }}"
+    # state: present means "make sure this is installed"
+    # if already installed, Ansible does nothing
+    state: present
+  loop:
+    - htop
+    - curl
+    - git
+  tags: install
