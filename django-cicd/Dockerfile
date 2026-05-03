@@ -1,20 +1,20 @@
-# Imagen base Python ligera para ARM64
+# Lightweight Python base image for ARM64
 FROM python:3.12-slim
 
-# Directorio de trabajo dentro del contenedor
+# Working directory inside the container
 WORKDIR /app
 
-# Copiamos las dependencias primero (optimiza la caché de Docker)
+# Copy dependencies first (optimizes Docker cache)
 COPY requirements.txt .
 
-# Instalamos las dependencias
+# Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copiamos el resto del proyecto
+# Copy the rest of the project
 COPY . .
 
-# Puerto que expone el contenedor
+# Port exposed by the container
 EXPOSE 8000
 
-# Comando para arrancar Django con gunicorn
+# Command to start Django with Gunicorn
 CMD ["gunicorn", "--bind", "0.0.0.0:8000", "config.wsgi:application"]

@@ -1,25 +1,25 @@
-# Configuración mínima de Django para el proyecto de práctica CI/CD
+# Minimal Django configuration for the CI/CD practice project
 
 SECRET_KEY = 'django-insecure-homelab-learning-cicd-practice-key'
 
 DEBUG = True
 
-# Permite conexiones desde cualquier host (para pruebas)
+# Allow connections from any host (for testing purposes)
 ALLOWED_HOSTS = ['*']
 
-# Archivo que define las URLs de la aplicación
+# File that defines the application URL routes
 ROOT_URLCONF = 'config.urls'
 
-# Archivo WSGI (ya lo tenemos)
+# WSGI application entry point
 WSGI_APPLICATION = 'config.wsgi.application'
 
-# Apps instaladas por defecto de Django
+# Default Django apps
 INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.staticfiles',
 ]
 
-# Base de datos SQLite — la más simple, no necesita contenedor aparte
+# SQLite database — simplest option, no separate container needed
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -27,8 +27,8 @@ DATABASES = {
     }
 }
 
-# Configuración de archivos estáticos
+# Static files URL
 STATIC_URL = '/static/'
 
-# Zona horaria
+# Timezone
 TIME_ZONE = 'Europe/Madrid'

@@ -1,26 +1,24 @@
-# Nombre del workflow — aparece así en la pestaña Actions de GitHub
-name: Hola Mundo
+# Workflow name — appears in the GitHub Actions tab
+name: Hello World
 
-# Cuándo se ejecuta este workflow
 on:
-  push:                    # se dispara cuando haces git push
+  push:                    # triggers on git push
     branches:
-      - main               # solo cuando el push es a la rama main
+      - main               # only on pushes to main branch
 
-# Los jobs son las tareas que se ejecutan
 jobs:
-  saludo:                  # nombre del job (puede ser cualquier nombre)
-    runs-on: self-hosted   # CLAVE: usa TU runner en la Pi, no los servidores de GitHub
+  greet:                   # job name (can be anything)
+    runs-on: self-hosted   # KEY: uses YOUR runner on the Pi, not GitHub's servers
 
-    steps:                 # pasos dentro del job, se ejecutan en orden
+    steps:                 # steps inside the job, executed in order
 
-      - name: Mostrar fecha y hostname
+      - name: Show date and hostname
         run: |
-          echo "Workflow ejecutado el: $(date)"
-          echo "En la máquina: $(hostname)"
-          echo "Por el usuario: $(whoami)"
+          echo "Workflow executed at: $(date)"
+          echo "On machine: $(hostname)"
+          echo "By user: $(whoami)"
 
-      - name: Mostrar info de la Pi
+      - name: Show Pi info
         run: |
-          echo "Arquitectura: $(uname -m)"
-          echo "Sistema: $(uname -r)"
+          echo "Architecture: $(uname -m)"
+          echo "Kernel: $(uname -r)"

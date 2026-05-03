@@ -1,17 +1,17 @@
-# Definición de URLs del proyecto
+# URL definitions for the project
 
 from django.http import HttpResponse
 from django.urls import path
 
-# Vista mínima — devuelve un HTML simple
+# Minimal view — returns a simple HTML response
 def home(request):
     return HttpResponse("""
         <h1>Django CI/CD - Homelab Learning</h1>
-        <p>Desplegado automáticamente desde GitHub Actions</p>
+        <p>Automatically deployed from GitHub Actions</p>
         <p>Runner: rpi-server (Raspberry Pi 5)</p>
     """)
 
-# Lista de URLs disponibles
+# Available URL patterns
 urlpatterns = [
-    path('', home),   # URL raíz → vista home
+    path('', home),   # Root URL → home view
 ]
