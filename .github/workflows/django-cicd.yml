@@ -1,0 +1,51 @@
+# Workflow que construye y despliega el proyecto Django de práctica
+name: Django CI/CD
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'django-cicd/**'   # solo se dispara si hay cambios en esta carpeta
+
+jobs:
+  deploy:
+    runs-on: self-hosted   # ejecuta en tu Pi
+
+    steps:
+
+      - name: Clonar el repositorio en la Pi
+        uses: actions/checkout@v4
+        # Esta action descarga el código del repo en la Pi
+        # Es la action más común — casi todo pipeline empieza con esto
+
+      - name: Construir imagen Docker
+        run: |
+          # Entramos a la carpeta del proyecto
+          cd django-cicd
+          # Construimos la imagen con el tag 'django-cicd:latest'
+          docker build -t django-cicd:latest .
+
+      - name: Parar contenedor anterior si existe
+        run: |
+          # Si el contenedor ya existe lo paramos y eliminamos
+          # '|| true' evita que el pipeline falle si no existe todavía
+          docker stop django-cicd || true
+          docker rm django-cicd || true
+
+      - name: Levantar contenedor nuevo
+        run: |
+          docker run -d \
+            --name django-cicd \
+            -p 8098:8000 \
+            --restart unless-stopped \
+            django-cicd:latest
+          # -d         → en segundo plano
+          # -p 8098:8000 → puerto 8098 en la Pi → 8000 en el contenedor
+          # --restart  → se reinicia si la Pi reinicia
+
+      - name: Verificar que el contenedor está corriendo
+        run: |
+          # Esperamos 3 segundos para que Django arranque
+          sleep 3
+          docker ps | grep django-cicd
