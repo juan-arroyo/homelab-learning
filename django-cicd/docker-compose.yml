@@ -1,0 +1,26 @@
+# Orchestrates Nginx + Django (Gunicorn) for the CI/CD practice project
+
+services:
+
+  web:
+    # Build the Django image from the Dockerfile in this folder
+    build: .
+    container_name: django-cicd-web
+    restart: unless-stopped
+    # Not exposed directly — Nginx handles external traffic
+    expose:
+      - "8000"
+
+  nginx:
+    # Official Nginx image
+    image: nginx:alpine
+    container_name: django-cicd-nginx
+    restart: unless-stopped
+    ports:
+      # Port 8098 on the Pi → port 80 in the Nginx container
+      - "8098:80"
+    volumes:
+      # Mount our custom Nginx config
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - web
