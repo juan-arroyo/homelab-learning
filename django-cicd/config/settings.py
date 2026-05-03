@@ -7,6 +7,12 @@ DEBUG = True
 # Permite conexiones desde cualquier host (para pruebas)
 ALLOWED_HOSTS = ['*']
 
+# Archivo que define las URLs de la aplicación
+ROOT_URLCONF = 'config.urls'
+
+# Archivo WSGI (ya lo tenemos)
+WSGI_APPLICATION = 'config.wsgi.application'
+
 # Apps instaladas por defecto de Django
 INSTALLED_APPS = [
     'django.contrib.contenttypes',
