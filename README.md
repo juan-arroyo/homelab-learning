@@ -20,13 +20,13 @@ ansible/
 ├── group_vars/
 │   └── pi.yml            # variables and vault-encrypted secrets
 └── roles/
-    ├── base/             # creates base folder structure on the Pi
-    ├── tools/            # installs common tools (htop, curl, git)
-    ├── tmux/             # installs tmux + deploys custom config
-    ├── info/             # generates a Pi info file using variables
-    ├── system/           # deploys a Jinja2 template with system facts
-    ├── conditionals/     # demonstrates conditionals and Ansible Vault
-    └── report/           # generates a full system report via template
+├── base/             # creates base folder structure on the Pi
+├── tools/            # installs common tools (htop, curl, git)
+├── tmux/             # installs tmux + deploys custom config
+├── info/             # generates a Pi info file using variables
+├── system/           # deploys a Jinja2 template with system facts
+├── conditionals/     # demonstrates conditionals and Ansible Vault
+└── report/           # generates a full system report via template
 ```
 
 ## Concepts Covered
@@ -48,6 +48,38 @@ ansible/
 3. Edit `group_vars/pi.yml` with your variables
 4. Encrypt your secrets: `ansible-vault encrypt_string 'your_password' --name 'db_password'`
 5. Run the playbook: `ansible-playbook -i inventory.ini playbook.yml --ask-vault-pass`
+
+## GitHub Actions — CI/CD Pipeline
+
+Automated CI/CD pipeline using a self-hosted GitHub Actions runner installed on the Raspberry Pi 5.
+
+### Architecture
+Developer (WSL) → git push → GitHub → Self-hosted runner (Pi) → Docker → Live container
+
+### Runner Setup
+
+- Runner installed as a systemd service on the Pi
+- Automatically starts on boot and listens for jobs
+- Labels: `self-hosted`, `Linux`, `ARM64`
+
+### Django CI/CD Pipeline (`django-cicd/`)
+
+A practice Django project with a full CI/CD pipeline:
+
+1. **Clone** — checks out the latest code on the Pi
+2. **Test** — builds a Docker image and runs Django tests inside it
+3. **Deploy** — only if all tests pass, rebuilds and restarts containers
+4. **Verify** — confirms containers are running after deploy
+
+Stack: Django + Gunicorn + Nginx + Docker Compose
+
+### Key concepts demonstrated
+
+- Self-hosted runner on ARM64 hardware
+- Running tests inside Docker (no host dependencies)
+- Pipeline stops on test failure — broken code never reaches production
+- `paths` filter — workflow only triggers on relevant file changes
+- `docker compose down || true` — safe teardown even on first deploy
 
 ## Part of a larger homelab
 
