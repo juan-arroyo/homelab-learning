@@ -1,4 +1,4 @@
-# Workflow that builds and deploys the Django practice project using Docker Compose
+# Workflow that tests and deploys the Django practice project
 name: Django CI/CD
 
 on:
@@ -6,30 +6,45 @@ on:
     branches:
       - main
     paths:
-      - 'django-cicd/**'
+      - 'django-cicd/**'   # Only triggers when files in this folder change
 
 jobs:
   deploy:
-    runs-on: self-hosted
+    runs-on: self-hosted   # Runs on the Pi, not GitHub's servers
 
     steps:
 
       - name: Clone repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4   # Downloads the repo code onto the Pi
 
-      - name: Stop and remove existing containers
+      - name: Install dependencies for testing
         run: |
           cd django-cicd
-          # Stop containers if running — '|| true' prevents failure if they don't exist
+          # Install dependencies directly on the Pi (not inside Docker)
+          # --break-system-packages required on Debian/Raspberry Pi OS
+          pip install -r requirements.txt --break-system-packages
+
+      - name: Run tests
+        run: |
+          cd django-cicd
+          # Run Django's built-in test runner
+          # If any test fails, the pipeline stops here and deploy is skipped
+          python manage.py test --verbosity=2
+
+      - name: Stop and remove existing containers
+        # Only reaches this step if all tests passed
+        run: |
+          cd django-cicd
+          # || true prevents failure if containers don't exist yet
           docker compose down || true
 
       - name: Build and start containers
         run: |
           cd django-cicd
-          # Build images and start all containers in background
+          # --build forces Docker to rebuild the image with latest code
           docker compose up -d --build
 
       - name: Verify containers are running
         run: |
-          sleep 3
+          sleep 3   # Wait for containers to fully start
           docker compose -f django-cicd/docker-compose.yml ps
