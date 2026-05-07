@@ -17,19 +17,13 @@ jobs:
       - name: Clone repository
         uses: actions/checkout@v4   # Downloads the repo code onto the Pi
 
-      - name: Install dependencies for testing
+      - name: Run tests inside Docker
         run: |
           cd django-cicd
-          # Install dependencies directly on the Pi (not inside Docker)
-          # --break-system-packages required on Debian/Raspberry Pi OS
-          pip3 install -r requirements.txt --break-system-packages
-
-      - name: Run tests
-        run: |
-          cd django-cicd
-          # Run Django's built-in test runner
-          # If any test fails, the pipeline stops here and deploy is skipped
-          python manage.py test --verbosity=2
+          # Build a temporary image and run tests inside it
+          # Avoids installing anything directly on the Pi
+          docker build -t django-cicd-test .
+          docker run --rm django-cicd-test python manage.py test --verbosity=2
 
       - name: Stop and remove existing containers
         # Only reaches this step if all tests passed
