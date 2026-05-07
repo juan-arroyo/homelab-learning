@@ -1,4 +1,4 @@
-# homelab-learning
+# automation-practice
 
 Ansible automation project for managing a Raspberry Pi 5 homelab.
 
@@ -54,7 +54,9 @@ ansible/
 Automated CI/CD pipeline using a self-hosted GitHub Actions runner installed on the Raspberry Pi 5.
 
 ### Architecture
+```
 Developer (WSL) → git push → GitHub → Self-hosted runner (Pi) → Docker → Live container
+```
 
 ### Runner Setup
 
