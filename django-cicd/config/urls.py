@@ -6,9 +6,8 @@ from django.urls import path
 # Minimal view — returns a simple HTML response
 def home(request):
     return HttpResponse("""
-        <h1>Django CI/CD - Homelab Learning</h1>
-        <p>Automatically deployed from GitHub Actions</p>
-        <p>Runner: rpi-server (Raspberry Pi 5)</p>
+        <h1>Broken page</h1>
+        <p>This text does not match what the test expects</p>
     """)
 
 # Available URL patterns
