@@ -22,7 +22,7 @@ jobs:
           cd django-cicd
           # Install dependencies directly on the Pi (not inside Docker)
           # --break-system-packages required on Debian/Raspberry Pi OS
-          pip install -r requirements.txt --break-system-packages
+          pip3 install -r requirements.txt --break-system-packages
 
       - name: Run tests
         run: |
